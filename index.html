@@ -1,56 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-  <!-- 
-      This is an HTML comment
-      You can write text in a comment and the content won't be visible in the page
-    -->
-
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="icon" href="https://glitch.com/favicon.ico" />
-
-  <!--
-      This is the page head - it contains info the browser uses
-      Like the title, which appears on the browser tab but not inside the page
-      Further down you'll see the content that displays in the page
-    -->
-  <title>Hello World!</title>
-
-  <!-- The website stylesheet -->
-  <link rel="stylesheet" href="/style.css" />
-
-  <!-- The website JavaScript file -->
-  <script src="/script.js" defer></script>
+  <meta charset="UTF-8">
+  <title>Bitcoin Gummy</title>
+  <style>
+    body { text-align:center; font-family:sans-serif; }
+    .coin {
+      width:50px;
+      height:50px;
+      display:inline-block;
+      margin:5px;
+      cursor:pointer;
+      border-radius:50%;
+    }
+    #game { margin-top:20px; }
+  </style>
 </head>
-
 <body>
-  <!--
-      The body includes the content you see in the page
-      Each element is defined using tags, like this <div></div>
-      The attributes like class="wrapper" let us style elements in the CSS
-    -->
-  <div class="wrapper">
-    <div class="content" role="main">
-      <h1 class="title">Oh hi website!</h1>
-      <img src="/cool-website.svg" class="illustration" alt="cool website" />
-      <div class="instructions">
-        <p>
-          Fork <a href="https://github.com/glitchdotcom/website-to-compute">this project</a> and open it in a GitHub Codespace.
-        </p>
-        <p> Follow the steps in the README to deploy your new website to Fastly in a few steps!
-        </p>
+  <h1>Bitcoin Gummy</h1>
+  <p>Score: <span id="score">0</span></p>
+  <div id="game"></div>
 
-      </div>
+  <script>
+    let score = 0;
+    const scoreEl = document.getElementById('score');
+    const game = document.getElementById('game');
 
-      <footer class="footer">
-        <div>
-          <a class="remix" href="https://github.com/glitchdotcom/website-to-compute">🚧 Get your own site</a>
-        </div>
-      </footer>
-    </div>
-  </div>
+    const colors = ['red', 'yellow', 'blue'];
+
+    function startLevel(level = 0) {
+      game.innerHTML = '';
+      const color = colors[level % colors.length];
+      const coinsCount = 5 + level * 2; // монеты увеличиваются с каждым уровнем
+      for (let i = 0; i < coinsCount; i++) {
+        const coin = document.createElement('div');
+        coin.className = 'coin';
+        coin.style.backgroundColor = color;
+        coin.onclick = () => {
+          score++;
+          scoreEl.textContent = score;
+          coin.remove();
+          if (game.children.length === 0) {
+            startLevel(level + 1);
+          }
+        };
+        game.appendChild(coin);
+      }
+    }
+
+    startLevel(); // запуск игры
+  </script>
 </body>
-
 </html>
